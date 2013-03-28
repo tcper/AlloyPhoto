@@ -24,7 +24,8 @@
             "添加杂色" : "noise",
             "曲线" : "curve",
             "暗角" : "darkCorner",
-            "喷点" : "dotted"
+            "喷点" : "dotted",
+            "马赛" : "mosaic"
         };
 
         var EasyReflection = {
@@ -41,7 +42,8 @@
             "灰色" : "e11",
             "暖秋" : "e12",
             "木雕" : "e13",
-            "粗糙" : "e14"
+            "粗糙" : "e14",
+            "马赛克" : "e15"
         };
 
         var Config = {

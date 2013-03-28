@@ -92,7 +92,14 @@
                            window[Ps](this.canvas.width, this.canvas.height, "#000").act("喷点").act("反色").act("浮雕效果")
                            ,"叠加"
                        );
-                    }
+                    },
+                    e15: function(){
+                        var layerClone = this.clone().act("马赛");
+                        /*return this.add(
+                            layerClone, "线性光"
+                        );*/
+                        return layerClone;
+                    },
                 };
 
                 return Effects[fun];
