@@ -8,7 +8,7 @@
     window[Ps].module("mosaic",function(P){
 
         var M = {
-            process: function(imgData,arg){//调节亮度对比度
+            process: function(imgData,arg){
 
                 var data = imgData.data;
                 var width = imgData.width;
@@ -20,8 +20,6 @@
                 var halfSize = 5;
                 var dotSizeWidth = imgData.width / dotSize;
                 var dotSizeHeight = imgData.height / dotSize;
-
-                console.log(data.length);
 
                 for (var i = 0; i < dotSizeWidth; i++) {
                     for (var j = 0; j < dotSizeHeight; j++) {
