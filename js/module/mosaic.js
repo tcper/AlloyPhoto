@@ -1,6 +1,6 @@
 /*
- * @author: Bin Wang
- * @description:  马赛克 
+ * @author: Loki Tang
+ * @description:  Mosaic 
  *
  * */
 ;(function(Ps){
@@ -9,48 +9,62 @@
 
         var M = {
             process: function(imgData,arg){//调节亮度对比度
-                var R = parseInt(arg[0]) || 3;
+
                 var data = imgData.data;
                 var width = imgData.width;
                 var height = imgData.height;
-                var xLength = R * 2 + 1;
 
-                for(var x = 0,n = parseInt(width / xLength);x < n;x ++){
+                var xyToIFun = P.lib.dorsyMath.xyToIFun(width);
 
-                    for(var y = 0,m = parseInt(height / xLength);y < m;y ++){
+                var dotSize = 10;
+                var halfSize = 5;
+                var dotSizeWidth = imgData.width / dotSize;
+                var dotSizeHeight = imgData.height / dotSize;
 
-                        var average = [],sum = [0,0,0];
-                        for(var i = 0;i < xLength;i ++){
+                console.log(data.length);
 
-                            for(var j = 0;j < xLength;j ++){
-                                var realI = (y * xLength + i) * width + x * xLength + j;
-                                sum[0] += data[realI * 4];
-                                sum[1] += data[realI * 4 + 1];
-                                sum[2] += data[realI * 4 + 2];
-                            }
-                        }
-                        average[0] = sum[0] / (xLength * xLength);
-                        average[1] = sum[1] / (xLength * xLength);
-                        average[2] = sum[2] / (xLength * xLength);
+                for (var i = 0; i < dotSizeWidth; i++) {
+                    for (var j = 0; j < dotSizeHeight; j++) {
+                        var sx = dotSize * i;
+                        var sy = dotSize * j;
+                        
+                        var getColorSX = sx + halfSize;
+                        var getColorSY = sy + halfSize;
+                        var cc = getColor(getColorSX, getColorSY);
 
-                        for(var i = 0;i < xLength;i ++){
-
-                            for(var j = 0;j < xLength;j ++){
-                                var realI = (y * xLength + i) * width + x * xLength + j;
-                                data[realI * 4] = average[0];
-                                data[realI * 4 + 1] = average[1];
-                                data[realI * 4 + 2] = average[2];
-
-                            }
-                        }
-
+                        setRect(sx, sy, cc);
                     }
+                };
 
+                function setRect(sx, sy, cc) {
+                    for (var i = 0; i < dotSize; i++) {
+                        for (var j = 0; j < dotSize; j++) {
+                            setColor(sx + i, sy + j, cc);
+                        }
+                    };
                 }
 
+                function setColor(sx, sy, ccc) {
+                    if (!ccc || ccc.length <= 0) {
+                        return;
+                    }
+                    data[xyToIFun(sx, sy, 0)] = ccc[0];
+                    data[xyToIFun(sx, sy, 1)] = ccc[1];
+                    data[xyToIFun(sx, sy, 2)] = ccc[2];
+                    data[xyToIFun(sx, sy, 3)] = ccc[3];
+                }
+
+                function getColor(sx, sy) {
+                    var r = data[xyToIFun(sx, sy, 0) + 0];
+                    var g = data[xyToIFun(sx, sy, 0) + 1];
+                    var b = data[xyToIFun(sx, sy, 0) + 2];
+                    var a = data[xyToIFun(sx, sy, 0) + 3];
+                    return [r, g, b, a];
+                }
 
                 return imgData;
             }
+            
         };
 
         return M;
